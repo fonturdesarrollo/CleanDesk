@@ -1,0 +1,90 @@
+﻿@model ErrorViewModel
+@{
+  Layout = "";    
+}
+
+<!DOCTYPE HTML>
+<html>
+      <head>
+        <title>CleanDesk - Error Page</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="~/assets/css/main.css" />
+        <noscript><link rel="stylesheet" href= "~/assets/css/noscript.css" /></noscript>
+      </head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+        <!-- Header -->
+          <header id="header">
+            <div class="inner">
+              <!-- Logo -->
+                <a href="index.html" class="logo">
+                  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleanDesk</span>
+                </a>
+
+                 <h2 style="color:#4cbece">Atención al Usuario</h2>
+            </div>
+
+		<!-- Nav -->
+			<nav>
+				<ul>
+					<li><a href="#menu">Menu</a></li>
+				</ul>
+			</nav>
+          </header>
+
+			<!-- Menu -->
+			  <nav id="menu">
+				<h2>Menu</h2>
+				<ul>
+				  <li>@Html.ActionLink("Home","Index","Home")</li>
+				  <li>@Html.ActionLink("Mis Solicitudes","RequestUserDetailQueue","Request")</li>
+				  <li>@Html.ActionLink("Salir", "Login", "Login")</li>
+				</ul>
+			  </nav> 
+
+			<div id="main">
+				<div class="inner">
+					<!-- Form -->
+						<section>
+							<div class="row">
+								<div class="col-12">
+									<h1>Su requerimiento fue procesado correctamente y está en cola para ser atendido.</h1>
+   										<strong> <label style = "color:red"> @ViewBag.SuccessMessage</label></strong>
+								</div>
+							</div>
+						</section>
+						<section>
+							<div class="box alt">
+								<div class="row gtr-uniform">
+									<div class="col-12"><span class="image fit"><img src="~/images/success2.jpg" alt="" /></span></div>
+								</div>
+							</div>
+						</section>
+						<br/>
+
+
+				</div>
+			</div>
+
+			<!-- Footer -->
+				<footer id="footer">
+					<div class="inner">
+                      <ul class="copyright">
+                        <li>&copy; CleanDesk. All rights reserved</li>
+                      </ul>
+					</div>
+				</footer>
+		</div>	
+
+    <!-- Scripts -->
+      <script src="~/assets/js/jquery.min.js"></script>
+      <script src="~/assets/js/browser.min.js"></script>
+      <script src="~/assets/js/breakpoints.min.js"></script>
+      <script src="~/assets/js/util.js"></script>
+      <script src="~/assets/js/main.js"></script>
+      @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	</body>
+</html>

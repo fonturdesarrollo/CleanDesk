@@ -1,0 +1,128 @@
+﻿@{
+	Layout = "";    
+}
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>CleanDesk - Home</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="~/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="~/assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+								<!-- Logo -->
+								<a href="#" class="logo">
+									<span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span>
+									<span class="title">CleanDesk</span>
+									<br />
+									<span class="title">Atención al usuario</span>
+								</a>	
+						</div>
+						<!-- Nav -->
+							<nav>
+								<ul>
+									<li><a href="#menu">Menu</a></li>
+								</ul>
+							</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
+						<ul>
+							<li>@Html.ActionLink("Salir", "Login", "Login")</li>
+						</ul>
+					</nav>	
+					
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<header>				
+								<h1>Hola @ViewBag.EmployeeName bienvenid@@ al sistema de atención al usuario, selecciona que deseas hacer</h1>
+							</header>
+							<section class="tiles">
+								@{
+									if(ViewBag.EmployeeType == 2)
+									{
+										<article class="style3">
+											<span class="image">
+												<img src="~/images/image7.jpg" alt="" />
+											</span>
+												@Html.ActionLink("Seleccionar solicitud de la cola","RequestQueue","Request")
+										</article>
+										<article class="style4">
+											<span class="image">
+												<img src="~/images/image8.jpg" alt="" />
+											</span>
+												@Html.ActionLink("Solicitudes que estoy atendiendo","RequestDetailQueue","Request")
+										</article>
+									}
+								}
+
+								@{
+									if(ViewBag.EmployeeType == 3)
+									{
+										<article class="style3">
+											<span class="image">
+												<img src="~/images/image7.jpg" alt="" />
+											</span>
+												@Html.ActionLink("Consultar solicitudes en cola","RequestQueue","Request")
+										</article>
+										<article class="style4">
+											<span class="image">
+												<img src="~/images/image8.jpg" alt="" />
+											</span>
+												@Html.ActionLink("Consultar solicitudes en atención","RequestDetailQueue","Request")
+										</article>
+										<article class="style1">
+											<span class="image">
+												<img src="~/images/image3.jpg" alt="" />
+											</span>	
+											@Html.ActionLink("Generar solicitud","Add","Request")
+										</article>
+										<article class="style2">
+											<span class="image">
+												<img src="~/images/image4.jpg" alt="" />
+											</span>
+												@Html.ActionLink("Consultar estado de tus solicitudes","RequestUserDetailQueue","Request")
+										</article>
+									}
+								}
+
+								@{
+									if(ViewBag.EmployeeType == 1)
+									{
+										<article class="style1">
+											<span class="image">
+												<img src="~/images/image3.jpg" alt="" />
+											</span>	
+											@Html.ActionLink("Generar solicitud","Add","Request")
+										</article>
+										<article class="style2">
+											<span class="image">
+												<img src="~/images/image4.jpg" alt="" />
+											</span>
+												@Html.ActionLink("Consultar estado de tus solicitudes","RequestUserDetailQueue","Request")
+										</article>
+									}
+								}
+							</section>
+						</div>
+					</div>
+			</div>
+
+		<!-- Scripts -->
+			<script src="~/assets/js/jquery.min.js"></script>
+			<script src="~/assets/js/browser.min.js"></script>
+			<script src="~/assets/js/breakpoints.min.js"></script>
+			<script src="~/assets/js/util.js"></script>
+			<script src="~/assets/js/main.js"></script>
+	</body>
+</html>

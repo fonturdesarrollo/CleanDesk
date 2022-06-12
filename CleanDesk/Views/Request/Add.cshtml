@@ -1,0 +1,157 @@
+﻿@model CleanDesk.Models.RequestModel
+@{
+    Layout = "";
+}
+
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Generar Solicitud</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="~/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href= "~/assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+        @*DataTable************************************************************************@
+	   <link rel="stylesheet" href= "~/datatable/css/bootstrap.css" />
+	   <link rel="stylesheet" href= "~/datatable/css/dataTables.bootstrap4.min.css" />
+	   <link rel="stylesheet" href= "~/datatable/css/responsive.bootstrap4.min.css" />
+       @*************************************************************************************@
+
+    <style type="text/css">
+        body {
+            padding:50px;
+        }
+
+		.scrollable {
+			height: 650px;
+			overflow-y: scroll;
+		}
+    </style>
+
+	</head>
+	<body class="is-preload">
+	@using(Html.BeginForm("Add", "Request", FormMethod.Post))
+	{
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			  <!-- Header -->
+			  <header id="header">
+				<div class="inner">
+
+				  <!-- Logo -->
+					<a href="#" class="logo">
+					  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleadDesk</span>
+					  <br />
+					  <span class="title">Atención al usuario</span>
+					</a>
+				</div>
+				<!-- Nav -->
+				  <nav>
+					<ul>
+					  <li><a href="#menu">Menu</a></li>
+					</ul>
+				  </nav>
+			  </header>
+
+		<!-- Menu -->
+			<nav id="menu">
+				<h2>Menu</h2>
+				<ul>
+					<li>@Html.ActionLink("Home", "Index", "Home")</li>
+					<li>@Html.ActionLink("Mis solicitudes realizadas", "RequestUserDetailQueue", "Request")</li>
+				</ul>
+			</nav> 
+
+				<!-- Main -->
+			<div id="main">
+				<div class="inner">
+					<!-- Form -->
+						<section>
+							<h1 style="color:#4cbece">Generar Solicitud </h1>
+								<strong>Usuario:&nbsp;</strong>
+							    <span class="title">@ViewBag.EmployeeName</span><br />
+								<span class="title">Cédula: &nbsp; @ViewBag.IdentificationNumber</span> &nbsp; Gerencia: &nbsp; <span class="title">@ViewBag.ManagementName</span>
+								<br />
+								<br />
+								<div class="row gtr-uniform">
+									<div class="col-12">
+										<strong>Descripción del problema:</strong>
+										@Html.HiddenFor(x => x.EmployeeId)
+                                        @Html.TextAreaFor(x => x.RequestDescription, new {maxlength = "200", placeholder = "Descripción del problema", onclick= "$(this).select();"})
+									</div>
+									<div class="col-12">
+										<strong>Area relacionada:</strong>
+                                        @Html.DropDownListFor(t => t.RequestAreaDetailId, (SelectList)ViewBag.RequestArea, "-- Area relacionada --")
+									</div>
+									<div class="col-12">
+										<strong>Ubicación</strong>
+                                        @Html.DropDownListFor(t => t.LocationId, (SelectList)ViewBag.Location, "-- Ubicación --")
+									</div>
+									<div class="col-12">
+										<strong>Piso</strong>
+                                        @Html.DropDownListFor(t => t.FloorId, (SelectList)ViewBag.Floor, "-- Piso --")
+									</div>
+									<div class="col-12">
+										<strong>Extensión:</strong>
+                                        @Html.TextBoxFor(x => x.ExtensionNumber, new {maxlength = "50", placeholder = "Extensión", onclick= "$(this).select();"})
+									</div>
+									<div id = "divGenInvoice" class="col-12">
+										<ul class="actions">
+											<li><input type="submit" value="Actualizar" class="primary" /></li>
+										</ul>
+									</div>
+								</div>
+								<br/>
+						</section>
+				</div>
+			</div>
+		</div>
+	}
+		<!-- Scripts -->
+		<script src="~/assets/js/jquery.min.js"></script>
+		<script src="~/assets/js/browser.min.js"></script>
+		<script src="~/assets/js/breakpoints.min.js"></script>
+		<script src="~/assets/js/util.js"></script>
+		<script src="~/assets/js/main.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+       @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+        @*DataTable*******************************************@
+		<script src="~/datatable/js/jquery.dataTables.min.js"></script>
+		<script src="~/datatable/js/dataTables.bootstrap4.js"></script>
+		<script src="~/datatable/js/dataTables.responsive.min.js"></script>
+		<script src="~/datatable/js/responsive.bootstrap4.min.js"></script>
+     	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+         @***********************************************************@
+
+	   	<script type="text/javascript">
+		  //Global Functions
+			var total = "0";
+			var totalInExchange = "0";
+			var ddlValue ="";
+
+			$(function () {
+				var focusedElement;
+				$(document).on('focus', 'input', function () {
+					if (focusedElement == this) return; //already focused, return so user can now place cursor at specific point in input.
+					focusedElement = this;
+					setTimeout(function () { focusedElement.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+				});
+			});
+
+			$(document).ready(function () {
+
+
+		    });//end document ready
+
+		</script>
+
+	</body>
+</html>
+
+

@@ -1,0 +1,103 @@
+﻿@model EmployeeModel
+@{
+  Layout = "";    
+}
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>CleanDesk - Entrada al Sistema</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="~/login_assets/css/mainX.css" />
+		<noscript><link rel="stylesheet" href="~/login_assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+@using(Html.BeginForm("Login", "Login", FormMethod.Post))
+{
+	<div id="wrapper">
+
+		<!-- Nav -->
+			<nav id="nav">
+				<a href="#" class="icon solid fa-home"><span>Login</span></a>
+				<a href="#" class="icon solid fa-folder"><span>Novedades</span></a>
+				<a href="#" class="icon solid fa-envelope"><span>Soporte</span></a>
+			</nav>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Me -->
+					<article id="home" class="panel intro">
+						<header>
+							<h2><span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span>CleanDesk</h2>
+							@if (ViewBag.InvalidUser == "true")
+							{
+								<p><h5 style="color: #be3113 ">Usuario o clave inválida</h5></p>
+							}
+							else{
+								<p><h5>Atención al Usuario</h5></p>
+							}
+							
+							<div>
+								Indique su número de cédula
+								<div class="row">											
+									<div class="col-6 col-12-medium">
+										@Html.TextBoxFor(x => x.IdentificationNumber, new {maxlength = "12", placeholder = "Cédula (solo números)", onclick= "$(this).select();", onkeypress="return isNumberKey(event)"})
+										<span asp-validation-for="IdentificationNumber" class="text-danger"></span>
+									</div>
+									<div class="col-12">
+										<input type="submit" value="Entrar" />
+									</div>
+								</div>
+							</div>
+
+						</header>
+						<a href="#" class="jumplink pic">
+							<img src="~/images/me.jpg" alt="" />
+						</a>
+
+					</article>
+			</div>
+
+		<!-- Footer -->
+			<div id="footer">
+				<ul class="copyright">
+					<li>&copy; Gerencia de Tecnología.</li><li>Sitio: <a href="http://www.fontur.gob.ve/">FONTUR</a></li>
+				</ul>
+			</div>
+	</div>	
+}
+
+		<!-- Wrapper-->
+		<!-- Scripts -->
+			<script src="~/login_assets/js/jquery.min.js"></script>
+			<script src="~/login_assets/js/browser.min.js"></script>
+			<script src="~/login_assets/js/breakpoints.min.js"></script>
+			<script src="~/login_assets/js/util.js"></script>
+			<script src="~/login_assets/js/main.js"></script>
+			@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+	   		<script type="text/javascript">
+				function isNumberKey(evt)
+				{
+					var charCode = (evt.which) ? evt.which : event.keyCode;
+					if(charCode == 44){
+						return true;
+					}
+					if (charCode != 46 && charCode > 31 
+					&& (charCode < 48 || charCode > 57))
+						return false;
+
+					return true;
+				}
+
+				$(document).ready(function () {
+
+
+				});//end document ready
+
+			</script>
+	</body>
+</html>
