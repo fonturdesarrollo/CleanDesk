@@ -22,8 +22,10 @@ namespace CleanDesk.Core
                     if (model != null)
                     {
                         sqlConnection.Open();
-                        SqlCommand cmd = new("RequestAddOrEdit", sqlConnection);
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlCommand cmd = new("RequestAddOrEdit", sqlConnection)
+                        {
+                            CommandType = System.Data.CommandType.StoredProcedure
+                        };
                         cmd.Parameters.AddWithValue("RequestId", model.RequestId);
                         cmd.Parameters.AddWithValue("EmployeeId", model.EmployeeId);
                         cmd.Parameters.AddWithValue("RequestDescription", model.RequestDescription.ToUpper());
@@ -55,8 +57,10 @@ namespace CleanDesk.Core
                     if (model != null)
                     {
                         sqlConnection.Open();
-                        SqlCommand cmd = new("RequestDetailAdd", sqlConnection);
-                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        SqlCommand cmd = new("RequestDetailAdd", sqlConnection)
+                        {
+                            CommandType = System.Data.CommandType.StoredProcedure
+                        };
                         cmd.Parameters.AddWithValue("RequestDetailId", model.RequestDetailId);
                         cmd.Parameters.AddWithValue("RequestId", model.RequestId);
                         cmd.Parameters.AddWithValue("EmployeeId", model.EmployeeId);

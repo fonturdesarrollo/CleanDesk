@@ -20,7 +20,7 @@ namespace CleanDesk.Controllers
             this._location = location;
             this._status = status;
         }
-        public IActionResult Add(int employeeIdNumber)
+        public IActionResult Add()
         {
             try
             {
@@ -80,7 +80,6 @@ namespace CleanDesk.Controllers
             {
                 if (HttpContext.Session.GetString("EmployeeId") != null)
                 {
-                    //int technicianId = (int)HttpContext.Session.GetInt32("EmployeeId");
                     int employeeId = 0;
 
                     RequestDetailModel model = new()
@@ -176,7 +175,7 @@ namespace CleanDesk.Controllers
                     ViewBag.ManagementName = (string)HttpContext.Session.GetString("ManagementName");
                     ViewBag.EmployeeName = (string)HttpContext.Session.GetString("EmployeeName");
 
-                    bool employeeAdmin = (int)HttpContext.Session.GetInt32("EmployeeTypeId") == 3 ? true : false;
+                    bool employeeAdmin = (int)HttpContext.Session.GetInt32("EmployeeTypeId") == 3;
 
                     List<RequestDetailModel> model = _request.GetAllByTechnicianId((int)HttpContext.Session.GetInt32("EmployeeId"), employeeAdmin);
 
@@ -258,7 +257,7 @@ namespace CleanDesk.Controllers
                         EmployeeId = (int)employeeId
                     };
 
-                    return RedirectToAction("AddRequestDetail", new { requestId = requestId} );
+                    return RedirectToAction("AddRequestDetail", new { requestId } );
                 }
 
                 return RedirectToAction("Index", "Login");
