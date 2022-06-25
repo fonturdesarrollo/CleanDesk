@@ -21,5 +21,6 @@ namespace CleanDesk.Models
         public int FloorId { get; set; }
         public int FloorNumber { get; set; }
         public string? ExtensionNumber { get; set; }
+        public string? IPNumber { get; set; }
     }
 }

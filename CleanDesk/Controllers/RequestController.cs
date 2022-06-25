@@ -12,13 +12,15 @@ namespace CleanDesk.Controllers
         private readonly IFloor _floor;
         private readonly ILocation _location;
         private readonly IStatus _status;
-        public RequestController(IRequest request, IRequestArea requestArea, IFloor floor, ILocation location, IStatus status)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public RequestController(IRequest request, IRequestArea requestArea, IFloor floor, ILocation location, IStatus status, IHttpContextAccessor httpContextAccessor)
         {
             this._request = request;
             this._requestArea = requestArea;
             this._floor = floor;
             this._location = location;
             this._status = status;
+            this._httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Add()
         {
@@ -35,6 +37,7 @@ namespace CleanDesk.Controllers
                     ViewBag.RequestArea = new SelectList(_requestArea.GetAll(), "RequestAreaId", "RequestAreaName");
                     ViewBag.Floor = new SelectList(_floor.GetAll(), "FloorId", "FloorNumber");
                     ViewBag.Location = new SelectList(_location.GetAll(), "LocationId", "LocationName");
+                    model.IPNumber = Request.HttpContext.Connection.RemoteIpAddress.ToString();
 
                     return View(model);
                 }
@@ -57,11 +60,12 @@ namespace CleanDesk.Controllers
                 if (ModelState.IsValid)
                 {
                     model.EmployeeId = (int)HttpContext.Session.GetInt32("EmployeeId");
+                    var username = _httpContextAccessor.HttpContext.User.Identity.Name;
 
                     int requestId = _request.AddOrEdit(model);
 
                     if (requestId > 0)
-                    {
+                    {                   
                         return RedirectToAction("Result", "Request", new { successMessage = "Registro realizado correctamente" });
                     }
                 }
@@ -97,6 +101,7 @@ namespace CleanDesk.Controllers
                         ViewBag.FloorNumber = item.FloorNumber;
                         ViewBag.ExtensionNumber = item.ExtensionNumber;
                         ViewBag.RequestDate = item.RequestDate;
+                        ViewBag.IPNumber = item.IPNumber;
                         employeeId = item.EmployeeId;
                     }                
 

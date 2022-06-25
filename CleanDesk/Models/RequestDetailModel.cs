@@ -23,5 +23,6 @@ namespace CleanDesk.Models
         public int LocationId { get; set; }
         public string? ExtensionNumber { get; set; }
         public string? RequestDetailStatusName { get; set; }
+        public string? IPNumber { get; set; }
     }
 }

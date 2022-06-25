@@ -99,6 +99,10 @@
 										<strong>Extensión:</strong>
                                         @Html.TextBoxFor(x => x.ExtensionNumber, new {maxlength = "50", placeholder = "Extensión", onclick= "$(this).select();"})
 									</div>
+									<div class="col-12">
+										<strong>Número IP:</strong>
+                                        @Html.TextBoxFor(x => x.IPNumber, new {maxlength = "100", placeholder = "Número IP", onclick= "$(this).select();"})
+									</div>
 									<div id = "divGenInvoice" class="col-12">
 										<ul class="actions">
 											<li><input type="submit" value="Actualizar" class="primary" /></li>

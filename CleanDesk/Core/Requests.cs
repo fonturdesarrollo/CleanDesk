@@ -34,6 +34,7 @@ namespace CleanDesk.Core
                         cmd.Parameters.AddWithValue("LocationId", model.LocationId);
                         cmd.Parameters.AddWithValue("ExtensionNumber", string.IsNullOrEmpty(model.ExtensionNumber) ? "N/D" : model.ExtensionNumber);
                         cmd.Parameters.AddWithValue("FloorId", model.FloorId);
+                        cmd.Parameters.AddWithValue("IPNumber", string.IsNullOrEmpty(model.IPNumber) ? "N/D" : model.IPNumber);
 
                         result = Convert.ToInt32(cmd.ExecuteScalar());
                     }
@@ -148,6 +149,7 @@ namespace CleanDesk.Core
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         RequestStatusName = (string)dr["RequestStatusName"],
                         RequestDate = (DateTime)dr["RequestDate"],
+                        IPNumber = (string)dr["IPNumber"]
                     });
                 }
 
@@ -237,6 +239,7 @@ namespace CleanDesk.Core
                         RequestDate = (DateTime)dr["RequestDate"],
                         //DateAssignated = (DateTime)dr["DateAssignated"],
                         TechnicianName = (string)dr["TechnicianName"],
+                        IPNumber = (string)dr["IPNumber"]
                         //Minutes = (int)dr["Minutes"]
                     });
                 }
