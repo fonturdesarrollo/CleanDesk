@@ -65,6 +65,7 @@
   											    <th>Ubicación</th>
 												<th>Descripción Servicio</th>
 												<th>Extensión</th>
+												<th>IP</th>
 												<th>Técnico</th>
 												<th>Seleccionar</th>
 											</tr>
@@ -78,6 +79,7 @@
 													<td>@service.LocationName</td>	
 													<td>@service.RequestDescription</td>					
 													<td>@service.ExtensionNumber</td>								
+													<td>@service.IPNumber</td>								
 													<td>@service.TechnicianName</td>								
 													<td id="@service.RequestId">
 														@Html.ActionLink("Modificar", "SelectRequest", "Request", new {requestId = service.RequestId }, new { @id = "btnEdit" })
