@@ -1,18 +1,19 @@
-﻿@model ErrorViewModel
+﻿@model SecurityUserModel
 @{
   Layout = "";    
 }
-
 <!DOCTYPE HTML>
 <html>
       <head>
-        <title>CleanDesk - Error Page</title>
+        <title>Ajustes</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="~/assets/css/main.css" />
         <noscript><link rel="stylesheet" href= "~/assets/css/noscript.css" /></noscript>
       </head>
 	<body class="is-preload">
+    @using(Html.BeginForm("AccesLogin", "Login", FormMethod.Post))
+	{
 		<!-- Wrapper -->
 		<div id="wrapper">
 
@@ -23,8 +24,6 @@
                 <a href="index.html" class="logo">
                   <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleanDesk</span>
                 </a>
-
-                 <h2 style="color:#4cbece">Atención al Usuario</h2>
             </div>
 
 		<!-- Nav -->
@@ -47,37 +46,37 @@
 			<div id="main">
 				<div class="inner">
 					<!-- Form -->
-						<section>
-							<div class="row">
-								<div class="col-12">
-									<h1>A ocurrido un error al procesar su requerimiento</h1>
-   										<strong> <label style = "color:red"> @ViewBag.ErrorMessage</label></strong>
-								</div>
-							</div>
-						</section>
-						<section>
-							<div class="box alt">
-								<div class="row gtr-uniform">
-									<div class="col-12"><span class="image fit"><img src="~/images/error-notification-banner.jpg" alt="" /></span></div>
-								</div>
-							</div>
-						</section>
 						<br/>
-
+								<section>
+									<h2>Consultas Generales</h2>
+									<div class="row">
+										<div class="col-6 col-12-medium">
+											<h3>Solicitudes</h3>
+											<ul>	
+												<li>@Html.ActionLink("Estatus solicitudes en atención","AllRequestsDetailQueue","Report")</li>
+											</ul>
+										</div>
+@*										<div class="col-6 col-12-medium">
+											<h3>Seguridad</h3>
+											<ul>
+												<li>Cambiar Password</li>
+												<li>@Html.ActionLink("Agregar Usuario","Add","User")</li>
+												<li>@Html.ActionLink("Modificar Usuario","UserList","User")</li>
+											</ul>
+										</div>*@
+@*										<div class="col-6 col-12-medium">
+											<h3>Tasa del día</h3>
+											<ul>
+												<li>@Html.ActionLink("Agregar tasa del día","Add","ExchangeRate")</li>
+											</ul>
+										</div>*@
+									</div>
+								</section>
 
 				</div>
 			</div>
-
-			<!-- Footer -->
-				<footer id="footer">
-					<div class="inner">
-                      <ul class="copyright">
-                        <li>&copy; CleanDesk. All rights reserved</li>
-                      </ul>
-					</div>
-				</footer>
 		</div>	
-
+	}
     <!-- Scripts -->
       <script src="~/assets/js/jquery.min.js"></script>
       <script src="~/assets/js/browser.min.js"></script>

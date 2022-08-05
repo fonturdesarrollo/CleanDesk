@@ -34,6 +34,7 @@ namespace CleanDesk.Core
                         cmd.Parameters.AddWithValue("LocationId", model.LocationId);
                         cmd.Parameters.AddWithValue("ExtensionNumber", string.IsNullOrEmpty(model.ExtensionNumber) ? "N/D" : model.ExtensionNumber);
                         cmd.Parameters.AddWithValue("FloorId", model.FloorId);
+                        cmd.Parameters.AddWithValue("ManagementId", model.ManagementId);
                         cmd.Parameters.AddWithValue("IPNumber", string.IsNullOrEmpty(model.IPNumber) ? "N/D" : model.IPNumber);
 
                         result = Convert.ToInt32(cmd.ExecuteScalar());
@@ -70,7 +71,45 @@ namespace CleanDesk.Core
                         cmd.Parameters.AddWithValue("RequestDetailStatusId", model.RequestDetailStatusId);
 
                         result = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        if (model.RequestDetailStatusId == 8)
+                        {
+                            RequestEditStatus(model.RequestId, model.RequestDetailStatusId);
+                        }
                     }
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int RequestEditStatus(int requestId, int statusId)
+        {
+            int result = 0;
+            int backToQueue = 1;
+
+            if(statusId != 8)
+            {
+                backToQueue = statusId;
+            }
+
+            try
+            {
+                using (SqlConnection sqlConnection = new(_configuration.GetConnectionString("connectionString")))
+                {
+                    sqlConnection.Open();
+                    SqlCommand cmd = new("RequestEditStatus", sqlConnection)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("RequestId", requestId);
+                    cmd.Parameters.AddWithValue("RequestStatusId", backToQueue);
+
+                    result = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
                 return result;
@@ -105,7 +144,7 @@ namespace CleanDesk.Core
                         LocationId = (int)dr["LocationId"],
                         LocationName = (string)dr["LocationName"],
                         FloorId = (int)dr["FloorId"],
-                        FloorNumber = (int)dr["FloorNumber"],
+                        FloorNumber = (string)dr["FloorNumber"],
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         RequestStatusName = (string)dr["RequestStatusName"],
                         RequestDate = (DateTime)dr["RequestDate"],
@@ -145,11 +184,13 @@ namespace CleanDesk.Core
                         LocationId = (int)dr["LocationId"],
                         LocationName = (string)dr["LocationName"],
                         FloorId = (int)dr["FloorId"],
-                        FloorNumber = (int)dr["FloorNumber"],
+                        FloorNumber = (string)dr["FloorNumber"],
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         RequestStatusName = (string)dr["RequestStatusName"],
                         RequestDate = (DateTime)dr["RequestDate"],
-                        IPNumber = (string)dr["IPNumber"]
+                        IPNumber = (string)dr["IPNumber"],
+                        ManagementId = (int)dr["LocationId"],
+                        ManagementName = (string)dr["ManagementName"]
                     });
                 }
 
@@ -186,10 +227,12 @@ namespace CleanDesk.Core
                         LocationId = (int)dr["LocationId"],
                         LocationName = (string)dr["LocationName"],
                         FloorId = (int)dr["FloorId"],
-                        FloorNumber = (int)dr["FloorNumber"],
+                        FloorNumber = (string)dr["FloorNumber"],
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         RequestStatusName = (string)dr["RequestStatusName"],
-                        RequestDate = (DateTime)dr["RequestDate"]
+                        RequestDate = (DateTime)dr["RequestDate"],
+                        ManagementId = (int)dr["ManagementId"],
+                        ManagementName = (string)dr["ManagementName"]
                     });
                 }
 
@@ -233,13 +276,15 @@ namespace CleanDesk.Core
                         //RequestDetailStatusId = (int)dr["RequestDetailStatusId"],
                         LocationName = (string)dr["LocationName"],
                         LocationId = (int)dr["LocationId"],
-                        FloorNumber = (int)dr["FloorNumber"],
+                        FloorNumber = (string)dr["FloorNumber"],
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         //RequestDetailStatusName = (string)dr["RequestDetailStatusName"],
                         RequestDate = (DateTime)dr["RequestDate"],
                         //DateAssignated = (DateTime)dr["DateAssignated"],
                         TechnicianName = (string)dr["TechnicianName"],
-                        IPNumber = (string)dr["IPNumber"]
+                        IPNumber = (string)dr["IPNumber"],
+                        ManagementId = (int)dr["ManagementId"],
+                        ManagementName = (string)dr["ManagementName"]
                         //Minutes = (int)dr["Minutes"]
                     });
                 }
@@ -274,7 +319,7 @@ namespace CleanDesk.Core
                         RequestDetailStatusId = (int)dr["RequestDetailStatusId"],
                         LocationName = (string)dr["LocationName"],
                         LocationId = (int)dr["LocationId"],
-                        FloorNumber = (int)dr["FloorNumber"],
+                        FloorNumber = (string)dr["FloorNumber"],
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         RequestDetailStatusName = (string)dr["RequestDetailStatusName"],
                         RequestDate = (DateTime)dr["RequestDate"],
@@ -314,7 +359,7 @@ namespace CleanDesk.Core
                         RequestDetailStatusId = (int)dr["RequestDetailStatusId"],
                         LocationName = (string)dr["LocationName"],
                         LocationId = (int)dr["LocationId"],
-                        FloorNumber = (int)dr["FloorNumber"],
+                        FloorNumber = (string)dr["FloorNumber"],
                         ExtensionNumber = (string)dr["ExtensionNumber"],
                         RequestDetailStatusName = (string)dr["RequestDetailStatusName"],
                         RequestDate = (DateTime)dr["RequestDate"],

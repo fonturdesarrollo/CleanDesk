@@ -45,7 +45,7 @@
 				  <nav id="menu">
 					<h2>Menu</h2>
 					<ul>
-					  <li>@Html.ActionLink("Home", "Index", "Home")</li>
+					  <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
 					  <li>@Html.ActionLink("Cola de solicitudes", "RequestQueue", "Request")</li>
 				      <li>@Html.ActionLink("Salir", "Login", "Login")</li>
 					</ul>
@@ -63,6 +63,8 @@
 												<th>Fecha Solicitud</th>
 												<th>Solicitante</th>
   											    <th>Ubicación</th>
+  											    <th>Piso</th>
+  											    <th>Gerencia</th>
 												<th>Descripción Servicio</th>
 												<th>Extensión</th>
 												<th>IP</th>
@@ -77,6 +79,8 @@
 													<td>@service.RequestDate</td>
 													<td>@service.EmployeeName</td>
 													<td>@service.LocationName</td>	
+													<td>@service.FloorNumber</td>	
+													<td>@service.ManagementName</td>	
 													<td>@service.RequestDescription</td>					
 													<td>@service.ExtensionNumber</td>								
 													<td>@service.IPNumber</td>								

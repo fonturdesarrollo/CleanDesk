@@ -49,7 +49,7 @@ namespace CleanDesk.Core
                 List<StatusModel> status = new();
                 using SqlConnection sqlConnection = new(_configuration.GetConnectionString("connectionString"));
                 sqlConnection.Open();
-                SqlCommand cmd = new($"SELECT * FROM RequestStatus WHERE RequestStatusId = {3} OR RequestStatusId = {4} OR RequestStatusId = {5} ORDER BY RequestStatusId", sqlConnection);
+                SqlCommand cmd = new($"SELECT * FROM RequestStatus WHERE RequestStatusId = {3} OR RequestStatusId = {4} OR RequestStatusId = {5} OR RequestStatusId = {8} ORDER BY RequestStatusId", sqlConnection);
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())

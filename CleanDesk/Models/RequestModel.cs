@@ -19,7 +19,9 @@ namespace CleanDesk.Models
         public int LocationId { get; set; }
         public string? LocationName { get; set; }
         public int FloorId { get; set; }
-        public int FloorNumber { get; set; }
+        public string? FloorNumber { get; set; }
+        public int ManagementId { get; set; }
+        public string? ManagementName { get; set; }
         public string? ExtensionNumber { get; set; }
         public string? IPNumber { get; set; }
     }

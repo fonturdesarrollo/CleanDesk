@@ -61,7 +61,7 @@
 			<nav id="menu">
 				<h2>Menu</h2>
 				<ul>
-					<li>@Html.ActionLink("Home", "Index", "Home")</li>
+					<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
 					<li>@Html.ActionLink("Mis solicitudes realizadas", "RequestUserDetailQueue", "Request")</li>
 				</ul>
 			</nav> 
@@ -90,6 +90,10 @@
 									<div class="col-12">
 										<strong>Ubicación</strong>
                                         @Html.DropDownListFor(t => t.LocationId, (SelectList)ViewBag.Location, "-- Ubicación --")
+									</div>
+									<div class="col-12">
+										<strong>Gerencia</strong>
+                                        @Html.DropDownListFor(t => t.ManagementId, (SelectList)ViewBag.Management, "-- Gerencia --")
 									</div>
 									<div class="col-12">
 										<strong>Piso</strong>

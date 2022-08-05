@@ -24,6 +24,8 @@ builder.Services.AddTransient<IRequest, Requests>();
 builder.Services.AddTransient<IRequestArea, RequestAreas>();
 builder.Services.AddTransient<IFloor, Floors>();
 builder.Services.AddTransient<IStatus, Status>();
+builder.Services.AddTransient<IManagement, Managements>();
+builder.Services.AddTransient<IReport, Reports>();
 
 var app = builder.Build();
 
