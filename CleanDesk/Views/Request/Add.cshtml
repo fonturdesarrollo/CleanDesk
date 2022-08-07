@@ -109,7 +109,7 @@
 									</div>
 									<div id = "divGenInvoice" class="col-12">
 										<ul class="actions">
-											<li><input type="submit" value="Actualizar" class="primary" /></li>
+											<li><input type="submit" value="Actualizar" class="primary" id="saveRequest"/></li>
 										</ul>
 									</div>
 								</div>
@@ -151,6 +151,39 @@
 					setTimeout(function () { focusedElement.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
 				});
 			});
+
+			$("body").on("click", "#saveRequest", function () {   
+				if(isOkToSave()){
+					return true;
+				}					
+			});
+
+			function isOkToSave(){
+				if($("#RequestDescription").val() ==""){
+					alert("Debe colocar la descripción del servicio solicitado");
+					return false;
+				}
+
+				if($("#RequestAreaDetailId").val() =="") {
+					alert("Debe seleccionar el area");
+					return false;
+				}
+
+				if($("#LocationId").val() =="") {
+					alert("Debe seleccionar la ubicación");
+					return false;
+				}
+
+				if($("#ManagementId").val() =="") {
+					alert("Debe seleccionar la gerencia");
+					return false;
+				}
+
+				if($("#FloorId").val() =="") {
+					alert("Debe seleccionar el piso");
+					return false;
+				}
+			}
 
 			$(document).ready(function () {
 
