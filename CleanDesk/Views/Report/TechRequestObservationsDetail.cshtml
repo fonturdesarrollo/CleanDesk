@@ -1,0 +1,181 @@
+﻿@model CleanDesk.Models.RequestDetailModel
+@{
+    Layout = "";
+}
+
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Detalle Observaciones Solicitud</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="~/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href= "~/assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+        @*DataTable************************************************************************@
+	   <link rel="stylesheet" href= "~/datatable/css/bootstrap.css" />
+	   <link rel="stylesheet" href= "~/datatable/css/dataTables.bootstrap4.min.css" />
+	   <link rel="stylesheet" href= "~/datatable/css/responsive.bootstrap4.min.css" />
+       @*************************************************************************************@
+
+    <style type="text/css">
+        body {
+            padding:50px;
+        }
+
+		.scrollable {
+			height: 650px;
+			overflow-y: scroll;
+		}
+    </style>
+
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			  <!-- Header -->
+			  <header id="header">
+				<div class="inner">
+
+				  <!-- Logo -->
+					<a href="#" class="logo">
+					  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleanDesk</span>
+					  <br />
+					  <span class="title">@ViewBag.EmployeeName</span>
+					</a>
+				</div>
+				<!-- Nav -->
+				  <nav>
+					<ul>
+					  <li><a href="#menu">Menu</a></li>
+					</ul>
+				  </nav>
+			  </header>
+
+		<!-- Menu -->
+			<nav id="menu">
+				<h2>Menu</h2>
+				<ul>
+					<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+					<li>@Html.ActionLink("Solicitudes siendo atendidas", "AllRequestsDetailQueue", "Report")</li>
+				</ul>
+			</nav> 
+
+				<!-- Main -->
+			<div id="main">
+				<div class="inner">
+					<!-- Form -->
+						<section>
+							<h1 style="color:#4cbece">Detalle Observaciones Solicitud </h1><br />
+								<h4>Técnico: @Model.TechnicianName</h4>
+								<span class="title">Usuario:&nbsp; @ViewBag.EmployeeRequestName</span> &nbsp; Ubicación: &nbsp; <span class="title">@ViewBag.LocationName</span> &nbsp; Gerencia: &nbsp; <span class="title">@ViewBag.Management</span>&nbsp; Piso: &nbsp; <span class="title">@ViewBag.FloorNumber</span>&nbsp; Extensión: &nbsp;<span class="title">@ViewBag.ExtensionNumber</span>&nbsp; IP: &nbsp;<span class="title">@ViewBag.IPNumber</span><br />
+								<span class="title">Problema:&nbsp; @ViewBag.RequestDescription</span><br />
+								<span class="title">Creado:&nbsp;@ViewBag.RequestDate</span>
+								<br />	
+								<div class="table-wrapper">
+								<table id="inventory" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+										<thead>
+											<tr>
+												<th>Fecha Revisión</th>
+												<th>Observaciones</th>
+  											    <th>Minutos</th>
+												<th>Estatus</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var service in ViewBag.RequestDetailList)
+											{	
+												<tr>
+													<td>@service.DateAssignated</td>
+													<td>@service.Observations</td>
+													<td>@service.Minutes</td>		
+													<td>@service.RequestDetailStatusName</td>								
+												</tr>
+											} 
+										</tbody>
+								</table>
+								</div>
+						</section>
+				</div>
+			</div>
+		</div>
+
+		<!-- Scripts -->
+		<script src="~/assets/js/jquery.min.js"></script>
+		<script src="~/assets/js/browser.min.js"></script>
+		<script src="~/assets/js/breakpoints.min.js"></script>
+		<script src="~/assets/js/util.js"></script>
+		<script src="~/assets/js/main.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+       @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+        @*DataTable*******************************************@
+		<script src="~/datatable/js/jquery.dataTables.min.js"></script>
+		<script src="~/datatable/js/dataTables.bootstrap4.js"></script>
+		<script src="~/datatable/js/dataTables.responsive.min.js"></script>
+		<script src="~/datatable/js/responsive.bootstrap4.min.js"></script>
+     	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+         @***********************************************************@
+
+	   	<script type="text/javascript">
+		  //Global Functions
+			var total = "0";
+			var totalInExchange = "0";
+			var ddlValue ="";
+
+			$(function () {
+				var focusedElement;
+				$(document).on('focus', 'input', function () {
+					if (focusedElement == this) return; //already focused, return so user can now place cursor at specific point in input.
+					focusedElement = this;
+					setTimeout(function () { focusedElement.select(); }, 100); //select all text in any field on focus for easy re-entry. Delay sightly to allow focus to "stick" before selecting.
+				});
+			});
+
+			$("body").on("click", "#saveDetail", function () {   
+				if(isOkToSave()){
+					return true;
+				}					
+			});
+
+			function isOkToSave(){
+				if($("#Observations").val() ==""){
+					alert("Debe colocar una observación");
+					return false;
+				}
+
+				if($("#Minutes").val() =="0" || $("#Minutes").val() == "") {
+                    $("#Minutes").val() == "";
+					alert("Los minutos deben ser mayores a cero");
+					return false;
+				}
+			}
+
+			function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : event.keyCode;
+				if(charCode == 44){
+					return true;
+				}
+				if (charCode != 46 && charCode > 31 
+				&& (charCode < 48 || charCode > 57))
+					return false;
+
+				return true;
+			}
+
+			$(document).ready(function () {
+				$('#inventory').DataTable();
+
+		    });//end document ready
+
+		</script>
+
+	</body>
+</html>
+
+
