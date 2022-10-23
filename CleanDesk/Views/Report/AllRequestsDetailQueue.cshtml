@@ -28,7 +28,7 @@
 
 					  <!-- Logo -->
 						<a href="index.html" class="logo">
-						  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleanDesk</span>
+						  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">SoporteTecnico</span>
 						  <br />
 						  <span class="title">@ViewBag.EmployeeName</span>
 						</a>
@@ -46,8 +46,7 @@
 					<h2>Menu</h2>
 					<ul>
 					  <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-					  <li>@Html.ActionLink("Realizar solicitud", "Add", "Request")</li>
-				      <li>@Html.ActionLink("Salir", "Login", "Login")</li>
+					  <li>@Html.ActionLink("Consultas generales", "Index", "Report")</li>
 					</ul>
 				  </nav> 
 
@@ -75,7 +74,9 @@
 													<td>@service.RequestDate</td>
 													<td>@service.EmployeeName</td>
 													<td>@service.RequestDescription</td>
-													<td>@service.TechnicianName</td>	
+													<td id="@service.RequestId">
+														@Html.ActionLink(@service.TechnicianName, "SelectRequest", "Report", new {requestId = service.RequestId, techName = service.TechnicianName }, new { @id = "btnEdit" })
+													</td>													
 													<td>@service.RequestDetailStatusName</td>
 													<td>@service.Observations</td>
 												</tr>
@@ -105,7 +106,32 @@
 
 		<script type="text/javascript">
 			$(document).ready(function () {
-                $('#inventory').DataTable();
+				$('#inventory').DataTable({
+					"language": {
+						"sProcessing":    "Procesando...",
+						"sLengthMenu":    "Mostrar _MENU_ registros",
+						"sZeroRecords":   "No se encontraron resultados",
+						"sEmptyTable":    "Ningún dato disponible en esta tabla",
+						"sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+						"sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+						"sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+						"sInfoPostFix":   "",
+						"sSearch":        "Buscar:",
+						"sUrl":           "",
+						"sInfoThousands":  ",",
+						"sLoadingRecords": "Cargando...",
+						"oPaginate": {
+							"sFirst":    "Primero",
+							"sLast":    "Último",
+							"sNext":    "Siguiente",
+							"sPrevious": "Anterior"
+						},
+						"oAria": {
+							"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+							"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+						}
+					}
+				}); 
 			});
 		</script>
 

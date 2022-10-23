@@ -48,6 +48,8 @@ namespace CleanDesk.Core
         public interface IReport
         {
             public List<RequestDetailModel> GetAllRequestsDetailQueue();
+            public List<RequestDetailModel> GetResolveRequestsDetailQueue();
+            public List<RequestDetailModel> GetUnresolveRequestsDetailQueue();
         }
     }
 }
