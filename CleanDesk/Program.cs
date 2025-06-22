@@ -1,4 +1,5 @@
 using CleanDesk.Core;
+using Microsoft.AspNetCore.HttpOverrides;
 using static CleanDesk.Core.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,8 +24,17 @@ builder.Services.AddTransient<IRequest, Requests>();
 builder.Services.AddTransient<IRequestArea, RequestAreas>();
 builder.Services.AddTransient<IFloor, Floors>();
 builder.Services.AddTransient<IStatus, Status>();
+builder.Services.AddTransient<IManagement, Managements>();
+builder.Services.AddTransient<IReport, Reports>();
 
 var app = builder.Build();
+
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+    ForwardedHeaders.XForwardedProto
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -41,5 +41,15 @@ namespace CleanDesk.Core
         {
             public List<LocationModel> GetAll();
         }
+        public interface IManagement
+        {
+            public List<ManagementModel> GetAll();
+        }
+        public interface IReport
+        {
+            public List<RequestDetailModel> GetAllRequestsDetailQueue();
+            public List<RequestDetailModel> GetResolveRequestsDetailQueue();
+            public List<RequestDetailModel> GetUnresolveRequestsDetailQueue();
+        }
     }
 }

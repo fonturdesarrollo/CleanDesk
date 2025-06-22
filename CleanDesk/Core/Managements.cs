@@ -4,34 +4,34 @@ using static CleanDesk.Core.Interfaces;
 
 namespace CleanDesk.Core
 {
-    public class Floors : IFloor
+    public class Managements : IManagement
     {
         private readonly IConfiguration _configuration;
-        public Floors(IConfiguration configuration)
+        public Managements(IConfiguration configuration)
         {
             this._configuration = configuration;
         }
 
-        public List<FloorModel> GetAll()
+        public List<ManagementModel> GetAll()
         {
             try
             {
-                List<FloorModel> floor = new();
+                List<ManagementModel> management = new();
                 using SqlConnection sqlConnection = new(_configuration.GetConnectionString("connectionString"));
                 sqlConnection.Open();
-                SqlCommand cmd = new($"SELECT * FROM Floor ORDER BY FloorId", sqlConnection);
+                SqlCommand cmd = new($"SELECT * FROM Management ORDER BY ManagementId", sqlConnection);
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    floor.Add(new FloorModel
+                    management.Add(new ManagementModel
                     {
-                        FloorId = (int)dr["FloorId"],
-                        FloorNumber = (string)dr["FloorNumber"],
+                        ManagementId = (int)dr["ManagementId"],
+                        ManagementName = (string)dr["ManagementName"],
                     });
                 }
 
-                return floor.ToList();
+                return management.ToList();
             }
             catch (Exception)
             {

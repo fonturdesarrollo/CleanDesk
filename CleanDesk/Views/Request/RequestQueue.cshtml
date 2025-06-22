@@ -28,7 +28,7 @@
 
 					  <!-- Logo -->
 						<a href="index.html" class="logo">
-						  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleanDesk</span>
+						  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">SoporteTecnico</span>
 						  <br />
 						  <span class="title">@ViewBag.EmployeeName</span>
 						</a>
@@ -45,7 +45,7 @@
 				  <nav id="menu">
 					<h2>Menu</h2>
 					<ul>
-					  <li>@Html.ActionLink("Home", "Index", "Home")</li>
+					  <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
 					  <li>@Html.ActionLink("Solicitudes Pendientes", "RequestDetailQueue", "Request")</li>
 				      <li>@Html.ActionLink("Salir", "Login", "Login")</li>
 					</ul>
@@ -66,6 +66,8 @@
 												<th>Fecha</th>
 												<th>Solicitante</th>
   											    <th>Ubicación</th>
+  											    <th>Piso</th>
+  											    <th>Gerencia</th>
 												<th>Descripción Servicio</th>
 												<th>Area</th>
 												<th>Extensión</th>
@@ -80,6 +82,8 @@
 													<td>@service.RequestDate</td>
 													<td>@service.EmployeeName</td>
 													<td>@service.LocationName</td>	
+													<td>@service.FloorNumber</td>	
+													<td>@service.ManagementName</td>	
 													<td>@service.RequestDescription</td>													
 													<td>@service.RequestAreaName</td>													
 													<td>@service.ExtensionNumber</td>	
@@ -114,7 +118,33 @@
 
 		<script type="text/javascript">
 			$(document).ready(function () {
-                $('#inventory').DataTable();
+
+				$('#inventory').DataTable({
+					"language": {
+						"sProcessing":    "Procesando...",
+						"sLengthMenu":    "Mostrar _MENU_ registros",
+						"sZeroRecords":   "No se encontraron resultados",
+						"sEmptyTable":    "Ningún dato disponible en esta tabla",
+						"sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+						"sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+						"sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+						"sInfoPostFix":   "",
+						"sSearch":        "Buscar:",
+						"sUrl":           "",
+						"sInfoThousands":  ",",
+						"sLoadingRecords": "Cargando...",
+						"oPaginate": {
+							"sFirst":    "Primero",
+							"sLast":    "Último",
+							"sNext":    "Siguiente",
+							"sPrevious": "Anterior"
+						},
+						"oAria": {
+							"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+							"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+						}
+					}
+				});  
 			});
 		</script>
 

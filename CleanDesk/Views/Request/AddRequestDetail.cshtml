@@ -44,7 +44,7 @@
 
 				  <!-- Logo -->
 					<a href="#" class="logo">
-					  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">CleanDesk</span>
+					  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">SoporteTecnico</span>
 					  <br />
 					  <span class="title">@ViewBag.EmployeeName</span>
 					</a>
@@ -61,7 +61,7 @@
 			<nav id="menu">
 				<h2>Menu</h2>
 				<ul>
-					<li>@Html.ActionLink("Home", "Index", "Home")</li>
+					<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
 					<li>@Html.ActionLink("Solicitudes pendientes", "RequestDetailQueue", "Request")</li>
 					<li>@Html.ActionLink("Cola de solicitudes", "RequestQueue", "Request")</li>
 					<li>@Html.ActionLink("Salir", "Login", "Login")</li>
@@ -74,7 +74,7 @@
 					<!-- Form -->
 						<section>
 							<h1 style="color:#4cbece">Actualizar Solicitud </h1>
-								<span class="title">Usuario:&nbsp; @ViewBag.EmployeeRequestName</span> &nbsp; Ubicación: &nbsp; <span class="title">@ViewBag.LocationName</span> &nbsp; Piso: &nbsp; <span class="title">@ViewBag.FloorNumber</span>&nbsp; Extensión: &nbsp;<span class="title">@ViewBag.ExtensionNumber</span><br />
+								<span class="title">Usuario:&nbsp; @ViewBag.EmployeeRequestName</span> &nbsp; Ubicación: &nbsp; <span class="title">@ViewBag.LocationName</span> &nbsp; Gerencia: &nbsp; <span class="title">@ViewBag.Management</span>&nbsp; Piso: &nbsp; <span class="title">@ViewBag.FloorNumber</span>&nbsp; Extensión: &nbsp;<span class="title">@ViewBag.ExtensionNumber</span>&nbsp; IP: &nbsp;<span class="title">@ViewBag.IPNumber</span><br />
 								<span class="title">Problema:&nbsp; @ViewBag.RequestDescription</span><br />
 								<span class="title">Creado:&nbsp;@ViewBag.RequestDate</span>
 								<br />
@@ -84,19 +84,19 @@
 										<strong>Observaciones Técnico:</strong>
 										@Html.HiddenFor(x => x.EmployeeId)
 										@Html.HiddenFor(x => x.RequestId)
-                                        @Html.TextAreaFor(x => x.Observations, new {maxlength = "200", placeholder = "Observaciones Técnico", onclick= "$(this).select();"})
+                                        @Html.TextAreaFor(x => x.Observations, new {maxlength = "800", placeholder = "Observaciones Técnico", onclick= "$(this).select();"})
 									</div>
 									<div class="col-12">
 										<strong>Estatus</strong>
-                                        @Html.DropDownListFor(t => t.RequestDetailStatusId, (SelectList)ViewBag.Status, "-- Estaus --")
+                                        @Html.DropDownListFor(t => t.RequestDetailStatusId, (SelectList)ViewBag.Status, "-- Estatus --")
 									</div>
 									<div class="col-12">
 										<strong>Minutos:</strong>
-                                        @Html.TextBoxFor(x => x.Minutes, new {maxlength = "50", placeholder = "Minutos", onclick= "$(this).select();"})
+                                        @Html.TextBoxFor(x => x.Minutes, new {maxlength = "5", placeholder = "Minutos", onclick= "$(this).select();", onkeypress="return isNumberKey(event)"})
 									</div>
 									<div id = "divGenInvoice" class="col-12">
 										<ul class="actions">
-											<li><input type="submit" value="Actualizar" class="primary" /></li>
+											<li><input type="submit" value="Actualizar" class="primary" id="saveDetail" /></li>
 										</ul>
 									</div>
 								</div>
@@ -163,9 +163,65 @@
 				});
 			});
 
-			$(document).ready(function () {
-				$('#inventory').DataTable();
+			$("body").on("click", "#saveDetail", function () {   
+				if(isOkToSave()){
+					return true;
+				}					
+			});
 
+			function isOkToSave(){
+				if($("#Observations").val() ==""){
+					alert("Debe colocar una observación");
+					return false;
+				}
+
+				if($("#Minutes").val() =="0" || $("#Minutes").val() == "") {
+                    $("#Minutes").val() == "";
+					alert("Los minutos deben ser mayores a cero");
+					return false;
+				}
+			}
+
+			function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : event.keyCode;
+				if(charCode == 44){
+					return true;
+				}
+				if (charCode != 46 && charCode > 31 
+				&& (charCode < 48 || charCode > 57))
+					return false;
+
+				return true;
+			}
+
+			$(document).ready(function () {
+				$('#inventory').DataTable({
+					"language": {
+						"sProcessing":    "Procesando...",
+						"sLengthMenu":    "Mostrar _MENU_ registros",
+						"sZeroRecords":   "No se encontraron resultados",
+						"sEmptyTable":    "Ningún dato disponible en esta tabla",
+						"sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+						"sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+						"sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+						"sInfoPostFix":   "",
+						"sSearch":        "Buscar:",
+						"sUrl":           "",
+						"sInfoThousands":  ",",
+						"sLoadingRecords": "Cargando...",
+						"oPaginate": {
+							"sFirst":    "Primero",
+							"sLast":    "Último",
+							"sNext":    "Siguiente",
+							"sPrevious": "Anterior"
+						},
+						"oAria": {
+							"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+							"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+						}
+					}
+				}); 
 		    });//end document ready
 
 		</script>

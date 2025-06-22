@@ -1,4 +1,4 @@
-﻿@model CleanDesk.Models.RequestModel
+﻿@model CleanDesk.Models.RequestDetailModel
 @{
     Layout = "";
 }
@@ -7,7 +7,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Generar Solicitud</title>
+		<title>Detalle Observaciones Solicitud</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="~/assets/css/main.css" />
@@ -33,8 +33,6 @@
 
 	</head>
 	<body class="is-preload">
-	@using(Html.BeginForm("Add", "Request", FormMethod.Post))
-	{
 		<!-- Wrapper -->
 		<div id="wrapper">
 
@@ -46,7 +44,7 @@
 					<a href="#" class="logo">
 					  <span class="symbol"><img src="~/images/logo_login.jpg" alt="" /></span><span class="title">SoporteTecnico</span>
 					  <br />
-					  <span class="title">Gerencia de Tecnología</span>
+					  <span class="title">@ViewBag.EmployeeName</span>
 					</a>
 				</div>
 				<!-- Nav -->
@@ -62,7 +60,7 @@
 				<h2>Menu</h2>
 				<ul>
 					<li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-					<li>@Html.ActionLink("Mis solicitudes realizadas", "RequestUserDetailQueue", "Request")</li>
+					<li>@Html.ActionLink("Solicitudes siendo atendidas", "AllRequestsDetailQueue", "Report")</li>
 				</ul>
 			</nav> 
 
@@ -71,54 +69,41 @@
 				<div class="inner">
 					<!-- Form -->
 						<section>
-							<h1 style="color:#4cbece">Generar Solicitud </h1>
-								<strong>Usuario:&nbsp;</strong>
-							    <span class="title">@ViewBag.EmployeeName</span><br />
-								<span class="title">Cédula: &nbsp; @ViewBag.IdentificationNumber</span> &nbsp; Gerencia: &nbsp; <span class="title">@ViewBag.ManagementName</span>
-								<br />
-								<br />
-								<div class="row gtr-uniform">
-									<div class="col-12">
-										<strong>Descripción del problema:</strong>
-										@Html.HiddenFor(x => x.EmployeeId)
-                                        @Html.TextAreaFor(x => x.RequestDescription, new {maxlength = "200", placeholder = "Descripción del problema", onclick= "$(this).select();"})
-									</div>
-									<div class="col-12">
-										<strong>Area relacionada:</strong>
-                                        @Html.DropDownListFor(t => t.RequestAreaDetailId, (SelectList)ViewBag.RequestArea, "-- Area relacionada --")
-									</div>
-									<div class="col-12">
-										<strong>Ubicación</strong>
-                                        @Html.DropDownListFor(t => t.LocationId, (SelectList)ViewBag.Location, "-- Ubicación --")
-									</div>
-									<div class="col-12">
-										<strong>Gerencia</strong>
-                                        @Html.DropDownListFor(t => t.ManagementId, (SelectList)ViewBag.Management, "-- Gerencia --")
-									</div>
-									<div class="col-12">
-										<strong>Piso</strong>
-                                        @Html.DropDownListFor(t => t.FloorId, (SelectList)ViewBag.Floor, "-- Piso --")
-									</div>
-									<div class="col-12">
-										<strong>Extensión:</strong>
-                                        @Html.TextBoxFor(x => x.ExtensionNumber, new {maxlength = "50", placeholder = "Extensión", onclick= "$(this).select();"})
-									</div>
-									<div class="col-12">
-										<strong>Número IP:</strong>
-                                        @Html.TextBoxFor(x => x.IPNumber, new {maxlength = "100", placeholder = "Número IP", onclick= "$(this).select();"})
-									</div>
-									<div id = "divGenInvoice" class="col-12">
-										<ul class="actions">
-											<li><input type="submit" value="Actualizar" class="primary" id="saveRequest"/></li>
-										</ul>
-									</div>
+							<h1 style="color:#4cbece">Detalle Observaciones Solicitud </h1><br />
+								<h4>Técnico: @Model.TechnicianName</h4>
+								<span class="title">Usuario:&nbsp; @ViewBag.EmployeeRequestName</span> &nbsp; Ubicación: &nbsp; <span class="title">@ViewBag.LocationName</span> &nbsp; Gerencia: &nbsp; <span class="title">@ViewBag.Management</span>&nbsp; Piso: &nbsp; <span class="title">@ViewBag.FloorNumber</span>&nbsp; Extensión: &nbsp;<span class="title">@ViewBag.ExtensionNumber</span>&nbsp; IP: &nbsp;<span class="title">@ViewBag.IPNumber</span><br />
+								<span class="title">Problema:&nbsp; @ViewBag.RequestDescription</span><br />
+								<span class="title">Creado:&nbsp;@ViewBag.RequestDate</span>
+								<br />	
+								<br />	
+								<div class="table-wrapper">
+								<table id="inventory" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+										<thead>
+											<tr>
+												<th>Fecha Revisión</th>
+												<th>Observaciones</th>
+  											    <th>Minutos</th>
+												<th>Estatus</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var service in ViewBag.RequestDetailList)
+											{	
+												<tr>
+													<td>@service.DateAssignated</td>
+													<td>@service.Observations</td>
+													<td>@service.Minutes</td>		
+													<td>@service.RequestDetailStatusName</td>								
+												</tr>
+											} 
+										</tbody>
+								</table>
 								</div>
-								<br/>
 						</section>
 				</div>
 			</div>
 		</div>
-	}
+
 		<!-- Scripts -->
 		<script src="~/assets/js/jquery.min.js"></script>
 		<script src="~/assets/js/browser.min.js"></script>
@@ -152,41 +137,65 @@
 				});
 			});
 
-			$("body").on("click", "#saveRequest", function () {   
+			$("body").on("click", "#saveDetail", function () {   
 				if(isOkToSave()){
 					return true;
 				}					
 			});
 
 			function isOkToSave(){
-				if($("#RequestDescription").val() ==""){
-					alert("Debe colocar la descripción del servicio solicitado");
+				if($("#Observations").val() ==""){
+					alert("Debe colocar una observación");
 					return false;
 				}
 
-				if($("#RequestAreaDetailId").val() =="") {
-					alert("Debe seleccionar el area");
-					return false;
-				}
-
-				if($("#LocationId").val() =="") {
-					alert("Debe seleccionar la ubicación");
-					return false;
-				}
-
-				if($("#ManagementId").val() =="") {
-					alert("Debe seleccionar la gerencia");
-					return false;
-				}
-
-				if($("#FloorId").val() =="") {
-					alert("Debe seleccionar el piso");
+				if($("#Minutes").val() =="0" || $("#Minutes").val() == "") {
+                    $("#Minutes").val() == "";
+					alert("Los minutos deben ser mayores a cero");
 					return false;
 				}
 			}
 
-			$(document).ready(function () {
+			function isNumberKey(evt)
+			{
+				var charCode = (evt.which) ? evt.which : event.keyCode;
+				if(charCode == 44){
+					return true;
+				}
+				if (charCode != 46 && charCode > 31 
+				&& (charCode < 48 || charCode > 57))
+					return false;
 
+				return true;
+			}
+
+			$(document).ready(function () {
+				$('#inventory').DataTable({
+					"language": {
+						"sProcessing":    "Procesando...",
+						"sLengthMenu":    "Mostrar _MENU_ registros",
+						"sZeroRecords":   "No se encontraron resultados",
+						"sEmptyTable":    "Ningún dato disponible en esta tabla",
+						"sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+						"sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+						"sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+						"sInfoPostFix":   "",
+						"sSearch":        "Buscar:",
+						"sUrl":           "",
+						"sInfoThousands":  ",",
+						"sLoadingRecords": "Cargando...",
+						"oPaginate": {
+							"sFirst":    "Primero",
+							"sLast":    "Último",
+							"sNext":    "Siguiente",
+							"sPrevious": "Anterior"
+						},
+						"oAria": {
+							"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+							"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+						}
+					}
+				}); 
 
 		    });//end document ready
 
